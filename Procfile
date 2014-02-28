@@ -1,1 +1,1 @@
-web: java $JVM_OPTS -jar target/helloworld-standalone.jar $PORT
+web: java -jar target/wedding-site.jar $PORT
