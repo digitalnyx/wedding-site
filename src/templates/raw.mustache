@@ -1,0 +1,50 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>RAW</title>
+
+<style type="text/css" media="all">
+@import "css/wedding.css";
+</style>
+
+</head>
+<body>
+
+        Total Attending so far: {{num-guests}}<br \><br \>
+
+        <table border="1">
+        <tr>
+  	<th>Name</th>
+  	<th>Hotel?</th>
+  	<th>Attending</th>
+  	<th>Comments</th>
+  	</tr>
+
+        {{#guests}}
+        <tr>
+        <td>{{name}}</td>
+        <td>{{require_hotel}}</td>
+        <td>{{rsvp_attendees}}</td>
+        <td>{{rsvp_comment}}</td>
+        </tr>
+        {{/guests}}
+        </table>
+
+        <table border="1">
+        <tr>
+  	<th>Name</th>
+  	<th>Amount</th>
+  	<th>Comment</th>
+  	</tr>
+
+        {{#gifts}}
+        <tr>
+        <td>{{name}}</td>
+        <td>{{amount}}</td>
+        <td>{{comment}}</td>
+        </tr>
+        {{/gifts}}
+        </table>
+
+</body>
+</html>

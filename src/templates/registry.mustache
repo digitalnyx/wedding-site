@@ -1,0 +1,113 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Registry</title>
+
+<style type="text/css" media="all">
+@import "css/wedding.css";
+</style>
+
+<link href='http://fonts.googleapis.com/css?family=Limelight' rel='stylesheet' type='text/css'>
+
+<script src="https://checkout.stripe.com/checkout.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+
+</head>
+
+<body>
+  <div class="wrap">
+    <div class="main">
+      <div class="menu">
+        <a href="/"><img src="img/home_btn.jpg"></a>
+        <a href="/rsvp"><img src="img/rsvp_btn.jpg"></a>
+        <a href="/registry"><img src="img/registry_btn.jpg"></a>
+        <a href="/information"><img src="img/info_btn.jpg"></a>
+      </div>
+
+      
+      <div class="text">
+
+        <p class="section_body">Your presence on our special day is all that we ask;
+
+however, if you wish to honor us with a gift, a contribution 
+
+to our honeymoon fund will be gratefully received.</p>
+           
+        <!--
+           {{#public-key}}
+           <div style="margin: 0 auto; width:350px;">
+                 <span class="stylized">Name:</span> <input style="width:100%;" id="name"></input><br \>
+                 <span class="stylized">Amount:</span> <input  style="width:100%;" id="amountInput"></input><br \>
+                 <span class="stylized">Comment:</span> <br \>
+                 <textarea  style="width:100%;" cols="40" rows="5" id="comment"></textarea><br \>
+
+                 <button class="button" id="customButton">Gift</button>
+           </div>
+           {{/public-key}}
+
+           {{#finished}}
+
+                {{#paid}}
+                        <div style="margin: 0 auto; width:350px;">
+                             Transaction completed. Thank you!
+                        </div>
+                {{/paid}}
+
+                {{^paid}}
+                        <div style="margin: 0 auto; width:350px;">
+                             An unexpected error occured: {{error-msg}} <br \>
+                             I can be contacted at (303) 550-2844 if you need assistance.
+                        </div>
+                {{/paid}}
+
+           {{/finished}}
+
+        -->
+
+      </div>
+
+      <div class="footer">
+
+      </div>
+
+    </div>
+  </div>
+</body>
+</html>
+
+<script>
+  function getAmount() {
+         return Math.round(100 * $("#amountInput").val().replace(/[^\d.-]/g, ''));
+  }
+
+  var handler = StripeCheckout.configure({
+    key: '{{public-key}}',
+    //image: '/square-image.png',
+    token: function(token, args) {
+      // Use the token to create the charge with a server-side script.
+      // You can access the token ID with `token.id`
+
+      var url = '/registry';
+      var form = $('<form action="' + url + '" method="post">' +
+      '<input type="text" name="token" value="' + token.id + '" />' +
+      '<input type="text" name="amount" value="' + getAmount() + '" />' +
+      '<input type="text" name="name" value="' + $("#name").val() + '" />' +
+      '<input type="text" name="comment" value="' + $("#comment").val() + '" />' +
+      '</form>');
+
+      $(form).submit();
+      
+    }
+  });
+
+  document.getElementById('customButton').addEventListener('click', function(e) {
+    // Open Checkout with further options
+    handler.open({
+      name: 'Brandon and Miranda\'s Wedding',
+      description: 'Wedding Gift',
+      amount: getAmount()
+    });
+    e.preventDefault();
+  });
+
+</script>

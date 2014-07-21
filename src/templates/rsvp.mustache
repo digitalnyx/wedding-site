@@ -1,0 +1,132 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>RSVP</title>
+
+<style type="text/css" media="all">
+@import "css/wedding.css";
+</style>
+
+<script>
+
+function validateForm() {
+    var x = document.forms["input"]["first-name"].value;
+    if (x == null || x == "") {
+        alert("First name must be filled out");
+        return false;
+    }
+
+    var y = document.forms["input"]["last-name"].value;
+    if (y == null || y == "") {
+        alert("Last name must be filled out");
+        return false;
+    }
+
+    return true;
+}
+
+</script>
+
+<link href='http://fonts.googleapis.com/css?family=Limelight' rel='stylesheet' type='text/css'>
+
+</head>
+
+<body>
+  <div class="wrap">
+    <div class="main">
+      <div class="menu">
+        <a href="/"><img src="img/home_btn.jpg"></a>
+        <a href="/rsvp"><img src="img/rsvp_btn.jpg"></a>
+        <a href="/registry"><img src="img/registry_btn.jpg"></a>
+        <a href="/information"><img src="img/info_btn.jpg"></a>
+      </div>
+
+      <div class="text">
+
+       <p class="section_body">
+         To RSVP, enter your name in the boxes below as it appears on your invitation. Only enter one name per party.
+       </p>
+
+      {{#bad-key}}
+        <p>I could not find you! Please call me at (303) 550-2844 for assistance. -Brandon</p>
+      {{/bad-key}}
+
+      
+      {{^finished}}
+      {{^req.first-name}}
+        <form style="margin: 0 auto; width:350px;" name="input" onsubmit="return validateForm()" action="/rsvp" method="post">
+          <div style="display:block; height:15px;">
+              <span class="stylized" style="float:left;">First Name:</span> <input type="text" style="width:150px; float:right;" name="first-name">
+          </div>
+          <br \>
+          <div style="display:block; height:15px;">
+              
+              <span class="stylized" style="float:left;">Last Name:</span> <input type="text" style="width:150px; float:right;" name="last-name">
+          </div>
+          <br \>
+              <input type="submit" class="button" value="Submit">
+        </form>
+      {{/req.first-name}}
+
+      
+      {{#req.first-name}}
+        <form style="margin: 0 auto; width:350px;" name="input" action="/rsvp" method="post">
+              Hello, {{guest.name}}!<br \>
+              
+              {{#guest.single}}
+                <br \>Are you planning to attend?<br \>
+                <span style="margin-left: 35px;">
+                      <input type="radio" name="attending" value="1" checked>Yes
+                      <input type="radio" name="attending" value="0">No<br \>
+                </span>
+              {{/guest.single}}
+
+              {{#guest.double}}
+                <br \>Are you both planning to attend?<br \>
+                <span style="margin-left: 35px;">
+                      <input  type="radio" name="attending" value="2" checked>Yes
+                      <input type="radio" name="attending" value="1">Just one of us
+                      <input type="radio" name="attending" value="0">No<br \>
+                </span>
+              {{/guest.double}}
+
+              {{#guest.plus-one}}
+                <br \>Will you need your plus one?<br \>
+                <span style="margin-left: 35px;">
+                      <input type="radio" name="plus-one" value="1">Yes
+                      <input type="radio" name="plus-one" value="0" checked>No<br \>
+                </span>
+              {{/guest.plus-one}}
+
+                <br \>Will you require hotel accommodation?<br \>
+                <span style="margin-left: 35px;">
+                      <input type="radio" name="hotel" value="1">Yes
+                      <input type="radio" name="hotel" value="0" checked>No<br \>
+                </span>
+
+                <br \>Questions/Comments/Concerns:<br \>
+                <textarea cols="40" rows="5" name="comments"></textarea><br \>
+
+                <input type="hidden" name="id" value="{{guest.id}}">
+
+              <span style="margin-left:45px;"></span>
+              <input type="submit" class="button" value="Submit">
+        </form>
+      {{/req.first-name}}
+      {{/finished}}
+
+      {{#finished}}
+        RSVP Complete!
+      {{/finished}}
+
+      </div>
+
+      <div class="footer">
+
+      </div>
+      
+    </div>
+  </div>
+</body>
+
+</html>
