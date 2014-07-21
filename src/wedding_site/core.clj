@@ -86,7 +86,7 @@
   [first-name last-name]
   (first
    (sql/query db-spec
-              [(str "SELECT * FROM guests WHERE to_tsvector(name) @@ to_tsquery('" first-name " & " last-name "')")])))
+              [(str "SELECT * FROM guests WHERE to_tsvector(name) @@ to_tsquery('" (.trim first-name) " & " (.trim last-name) "')")])))
               ;[(str "SELECT * FROM guests WHERE rsvp_key = '" rsvp-key "'")])))
 
 (defn select-attending-guests
